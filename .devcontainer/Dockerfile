@@ -12,7 +12,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 # RUN su node -c "npm install -g <your-package-list-here>"
 
 # Install global node modules
-RUN su node -c "npm install -g @nestjs/cli"
+RUN su node -c "npm install -g @nestjs/cli prettier prettier-plugin-jsdoc eslint eslint-config-prettier @typescript-eslint/eslint-plugin @typescript-eslint/parser"
 
 # Install AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \

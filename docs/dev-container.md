@@ -19,7 +19,7 @@ The main benefit is that everyone on the team works with identical development e
 Before you can use our Dev Container, you'll need:
 
 1. [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
-2. [Visual Studio Code](https://code.visualstudio.com/) 
+2. [Visual Studio Code](https://code.visualstudio.com/)
 3. [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) for VS Code
 
 ## Getting Started
@@ -67,6 +67,16 @@ Our container includes the following tools:
   nest new my-project # Create a new NestJS project
   nest generate controller users # Generate a controller
   ```
+- **prettier**: Code formatter to ensure consistent style
+  ```bash
+  prettier --write "src/**/*.ts" # Format all TypeScript files in src directory
+  ```
+- **prettier-plugin-jsdoc**: Plugin for formatting JSDoc comments consistently
+- **eslint**: JavaScript/TypeScript linter to find and fix code problems
+  ```bash
+  eslint src --fix # Lint and automatically fix issues in src directory
+  ```
+- **eslint-config-prettier**: ESLint configuration that disables rules that conflict with Prettier
 
 #### Cloud Tools
 
@@ -95,7 +105,7 @@ Our development environment includes the following services:
 #### Redis
 
 - **Image**: redis:7-alpine (lightweight version)
-- **Configuration**: 
+- **Configuration**:
   - Save data every 60 seconds if at least 1 key changed
   - Warning-level logging for reduced verbosity
 - **Port**: 6379
@@ -120,9 +130,7 @@ Our Dev Container comes with the following VS Code extensions pre-installed:
 
 ### Features
 
-We've included the following Dev Container features:
-
-- **Prettier** with JSDoc and PHP plugins: Ensures consistent code formatting across the team
+The Dev Container includes various tools and utilities installed directly in the container environment. For code formatting and linting, Prettier and ESLint are installed globally from the Dockerfile, ensuring consistent code style and quality across the team.
 
 ## Data Persistence
 
@@ -151,6 +159,48 @@ nest generate service users
 nest generate resource products
 ```
 
+### Code Quality Tools
+
+The development environment comes with pre-configured linting and formatting tools:
+
+#### ESLint
+
+ESLint is configured to work with TypeScript and integrated with Prettier to avoid conflicts. The configuration can be found in `.eslintrc.js`.
+
+```bash
+# Lint all files in src directory
+eslint src
+
+# Lint and automatically fix issues
+eslint src --fix
+```
+
+#### Prettier
+
+Prettier is set up for consistent code formatting across the project with configurations in `.prettierrc`.
+
+```bash
+# Format a specific file
+prettier --write src/app.module.ts
+
+# Format all TypeScript files
+prettier --write "src/**/*.ts"
+
+# Check if files are formatted correctly (useful in CI)
+prettier --check "src/**/*.ts"
+```
+
+#### Integration Between ESLint and Prettier
+
+The development environment uses `eslint-config-prettier` to disable ESLint rules that might conflict with Prettier. This setup ensures that:
+
+1. ESLint handles code quality concerns (potential bugs, suspicious patterns)
+2. Prettier handles code formatting (spaces, commas, etc.)
+
+This integration ensures there are no conflicting rules, allowing both tools to work together seamlessly.
+
+### Database Connections
+
 When working with databases, configure your NestJS application to connect to the services:
 
 ```typescript
@@ -164,7 +214,7 @@ TypeOrmModule.forRoot({
   database: 'postgres',
   entities: [],
   synchronize: true, // Set to false in production
-})
+});
 ```
 
 ## Modifying the Dev Container
